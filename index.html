@@ -14,6 +14,13 @@
         h3 { color: #7ED321; }
         .section { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #e0e0e0; }
         
+        /* Gaya Bagian A dan B Baru */
+        .section-tujuan { background: #e3f2fd; border: 2px solid #90caf9; }
+        .section-petunjuk { background: #e8f5e9; border: 2px solid #a5d6a7; }
+        .section-tujuan h3 { color: #1565c0; }
+        .section-petunjuk h3 { color: #2e7d32; }
+        .numbered-list { list-style-type: decimal; margin-left: 20px; line-height: 1.6; }
+        
         /* Input Styling */
         input[type="text"], textarea, select { width: 100%; padding: 10px; margin: 10px 0; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
         input:focus, textarea:focus, select:focus { border-color: #4A90E2; outline: none; }
@@ -34,24 +41,35 @@
         .modal-content { background: white; margin: 15% auto; padding: 30px; border-radius: 15px; width: 80%; max-width: 500px; text-align: center; border: 5px solid #25D366; }
         .wa-btn { background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 10px; font-size: 20px; font-weight: bold; display: inline-block; margin-top: 15px; }
         
-        /* Upload preview */
-        #previewInfografis { max-width: 100%; max-height: 300px; margin-top: 10px; border: 2px dashed #ccc; border-radius: 8px; display: none; }
+        /* Pratinjau Infografis */
+        #previewInfografis { 
+            width: 100%; 
+            max-height: none;
+            margin-top: 10px; 
+            border: 2px dashed #ccc; 
+            border-radius: 8px; 
+            display: none; 
+            box-sizing: border-box;
+        }
         
         /* Utilitas */
         .checkbox-line { margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px; }
         .label-step { font-weight: bold; margin-top: 10px; display: block; }
 
-        /* AREA PRINT (PENTING UNTUK PDF) */
+        /* AREA PRINT */
         .print-area { display: none; }
-        
-        /* Pengaturan gambar infografis saat dicetak */
-        .print-area img.infografis {
-            width: 100%;
-            height: 100vh; /* Setinggi 1 halaman penuh */
-            object-fit: contain; /* Menjaga proporsi gambar agar tidak gepeng */
-            page-break-before: always; /* Pindah ke halaman baru */
-            border: 2px solid #ccc; /* Opsional: garis bantu */
-            box-sizing: border-box;
+        @media print {
+            @page { margin: 0; size: auto; }
+            body * { visibility: hidden; }
+            .print-area, .print-area * { visibility: visible; }
+            .print-area { position: absolute; left: 0; top: 0; width: 100%; height: 100vh; }
+            .print-area img.infografis {
+                width: 100%;
+                height: 100vh;
+                object-fit: contain;
+                page-break-before: always;
+                margin: 0; padding: 0;
+            }
         }
     </style>
 </head>
@@ -69,6 +87,27 @@
         <input type="text" id="kelas" placeholder="Masukkan kelas (Contoh: X AK 1)">
     </div>
 
+    <!-- Bagian A. Tujuan Pembelajaran (BARU) -->
+    <div class="section section-tujuan">
+        <h3>🎯 A. Tujuan Pembelajaran</h3>
+        <ol class="numbered-list">
+            <li>Murid mampu menjelaskan pengertian algoritma pencarian melalui pengamatan video dan setelah mengamati simulasi dengan tepat. <strong>(C2-Menjelaskan)</strong></li>
+            <li>Murid mampu mengidentifikasi jenis-jenis algoritma pencarian melalui pengamatan contoh kasus kehidupan sehari-hari dengan tepat. <strong>(C2-Mengidentifikasi)</strong></li>
+            <li>Murid mampu menganalisis perbedaan dari jenis-jenis algoritma pencarian berdasarkan tujuan dan cara kerjanya melalui analisis kasus sederhana dengan tepat. <strong>(C4-Menganalisis)</strong></li>
+        </ol>
+    </div>
+
+    <!-- Bagian B. Petunjuk Pengerjaan (BARU) -->
+    <div class="section section-petunjuk">
+        <h3>📋 B. Petunjuk Pengerjaan</h3>
+        <ol class="numbered-list">
+            <li>Baca setiap petunjuk dengan teliti</li>
+            <li>Kerjakan LKPD ini secara individu</li>
+            <li>Setelah semua pertanyaan terjawab, buatlah infografis berdasarkan jawaban kalian.</li>
+        </ol>
+    </div>
+
+    <!-- Bagian C -->
     <div class="section">
         <h3>📝 Bagian C: Lembar Pengajaran</h3>
         <label>1. Tuliskan pengertian algoritma pencarian menurut pemahamanmu sendiri:</label>
@@ -84,6 +123,7 @@
         <textarea id="q3" rows="3" placeholder="Contoh Situasi dan Jenis Algoritma..."></textarea>
     </div>
 
+    <!-- Bagian D -->
     <div class="section">
         <h3>🧩 Bagian D: Analisis Kasus</h3>
         <p><strong>Instruksi:</strong> Pilih salah satu level kasus di bawah ini yang menurutmu paling sesuai dengan kemampuanmu.</p>
@@ -332,13 +372,29 @@
             `;
         }
 
-        // Membuat area print
+        // Membuat area print (termasuk Bagian A dan B)
         const printArea = document.createElement('div');
         printArea.className = 'print-area';
         printArea.innerHTML = `
             <h1 style="color:blue; text-align:center;">LKPD INFORMATIKA</h1>
             <p><strong>Nama:</strong> ${nama} | <strong>Kelas:</strong> ${kelas}</p>
             <hr>
+            
+            <h3 style="color: #1565c0;">A. Tujuan Pembelajaran</h3>
+            <ol>
+                <li>Murid mampu menjelaskan pengertian algoritma pencarian melalui pengamatan video dan setelah mengamati simulasi dengan tepat. <strong>(C2-Menjelaskan)</strong></li>
+                <li>Murid mampu mengidentifikasi jenis-jenis algoritma pencarian melalui pengamatan contoh kasus kehidupan sehari-hari dengan tepat. <strong>(C2-Mengidentifikasi)</strong></li>
+                <li>Murid mampu menganalisis perbedaan dari jenis-jenis algoritma pencarian berdasarkan tujuan dan cara kerjanya melalui analisis kasus sederhana dengan tepat. <strong>(C4-Menganalisis)</strong></li>
+            </ol>
+
+            <h3 style="color: #2e7d32;">B. Petunjuk Pengerjaan</h3>
+            <ol>
+                <li>Baca setiap petunjuk dengan teliti</li>
+                <li>Kerjakan LKPD ini secara individu</li>
+                <li>Setelah semua pertanyaan terjawab, buatlah infografis berdasarkan jawaban kalian.</li>
+            </ol>
+            <hr>
+
             <h3 style="color:orange;">Jawaban Bagian C</h3>
             <p><strong>1.</strong> ${q1}</p>
             <p><strong>2a.</strong> ${q2a}</p>
@@ -346,9 +402,9 @@
             <p><strong>3.</strong> ${q3}</p>
             <h3 style="color:purple;">Jawaban Bagian D (Studi Kasus - Level ${level})</h3>
             ${htmlCase}
-            <h3 style="color:green;">Bagian E - Hasil Infografis</h3>
-            <!-- Gambar diatur menjadi 1 halaman penuh -->
-            <img src="${previewImg.src}" class="infografis" style="width: 100%; height: 100vh; object-fit: contain; page-break-before: always;" />
+            
+            <h3 style="color:green;">Bagian E - Hasil Infografis (Halaman Penuh)</h3>
+            <img src="${previewImg.src}" class="infografis" />
         `;
         document.body.appendChild(printArea);
 
