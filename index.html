@@ -8,67 +8,72 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f4f8; margin: 0; padding: 20px; }
         .container { max-width: 900px; margin: 0 auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 10px solid #4A90E2; }
         
-        /* Warna Ceria */
         h1 { color: #4A90E2; text-align: center; }
-        h2 { color: #F5A623; border-bottom: 3px dashed #F5A623; padding-bottom: 10px; }
         h3 { color: #7ED321; }
         .section { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #e0e0e0; }
         
-        /* Gaya Bagian A dan B Baru */
         .section-tujuan { background: #e3f2fd; border: 2px solid #90caf9; }
         .section-petunjuk { background: #e8f5e9; border: 2px solid #a5d6a7; }
         .section-tujuan h3 { color: #1565c0; }
         .section-petunjuk h3 { color: #2e7d32; }
+        
+        .section-petunjuk-infografis { background: #fff3e0; border: 2px solid #ffb74d; }
+        .section-petunjuk-infografis h3 { color: #e65100; }
+        .petunjuk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .petunjuk-grid h4 { font-size: 16px; margin-bottom: 10px; }
+        .petunjuk-list { list-style-type: none; padding: 0; }
+        .petunjuk-list li { margin-bottom: 10px; display: flex; align-items: flex-start; }
+        .check-icon { color: #2e7d32; font-weight: bold; margin-right: 5px; }
+        @media (max-width: 600px) { .petunjuk-grid { grid-template-columns: 1fr; } }
+
         .numbered-list { list-style-type: decimal; margin-left: 20px; line-height: 1.6; }
         
-        /* Input Styling */
         input[type="text"], textarea, select { width: 100%; padding: 10px; margin: 10px 0; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
         input:focus, textarea:focus, select:focus { border-color: #4A90E2; outline: none; }
         
-        /* Level Studi Kasus */
         .case-container { border: 2px solid #9B59B6; border-radius: 10px; padding: 15px; margin-bottom: 15px; background: #fdf5ff; display: none; }
         .case-container.active { display: block; }
         .radio-group { display: flex; gap: 20px; margin: 10px 0; }
         .radio-group label { cursor: pointer; font-weight: normal; }
         .data-list { font-family: monospace; background: #e0e0e0; padding: 5px; border-radius: 5px; display: inline-block; margin-bottom: 10px; }
         
-        /* Tombol */
         .btn-download { background-color: #4A90E2; color: white; border: none; padding: 15px 20px; font-size: 18px; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 20px; }
         .btn-download:hover { background-color: #357ABD; }
 
-        /* Modal WhatsApp */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); }
         .modal-content { background: white; margin: 15% auto; padding: 30px; border-radius: 15px; width: 80%; max-width: 500px; text-align: center; border: 5px solid #25D366; }
         .wa-btn { background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 10px; font-size: 20px; font-weight: bold; display: inline-block; margin-top: 15px; }
         
-        /* Pratinjau Infografis */
-        #previewInfografis { 
-            width: 100%; 
-            max-height: none;
-            margin-top: 10px; 
-            border: 2px dashed #ccc; 
-            border-radius: 8px; 
-            display: none; 
-            box-sizing: border-box;
-        }
+        #previewInfografis { width: 100%; max-height: none; margin-top: 10px; border: 2px dashed #ccc; border-radius: 8px; display: none; box-sizing: border-box; }
         
-        /* Utilitas */
         .checkbox-line { margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px; }
         .label-step { font-weight: bold; margin-top: 10px; display: block; }
 
-        /* AREA PRINT */
-        .print-area { display: none; }
+        /* PERBAIKAN UTAMA AREA PRINT */
+        #print-area { display: none; }
+        
         @media print {
-            @page { margin: 0; size: auto; }
+            /* Sembunyikan form utama */
             body * { visibility: hidden; }
-            .print-area, .print-area * { visibility: visible; }
-            .print-area { position: absolute; left: 0; top: 0; width: 100%; height: 100vh; }
-            .print-area img.infografis {
+            #print-area, #print-area * { visibility: visible; }
+            
+            /* Tampilkan area print */
+            #print-area {
+                display: block !important;
+                position: absolute;
+                left: 0;
+                top: 0;
                 width: 100%;
-                height: 100vh;
+                background: white;
+                padding: 20px; /* Margin standar untuk kertas */
+                box-sizing: border-box;
+            }
+            
+            #print-area img.infografis {
+                width: 100%;
+                height: 100vh; /* Penuh 1 halaman */
                 object-fit: contain;
                 page-break-before: always;
-                margin: 0; padding: 0;
             }
         }
     </style>
@@ -87,7 +92,6 @@
         <input type="text" id="kelas" placeholder="Masukkan kelas (Contoh: X AK 1)">
     </div>
 
-    <!-- Bagian A. Tujuan Pembelajaran (BARU) -->
     <div class="section section-tujuan">
         <h3>🎯 A. Tujuan Pembelajaran</h3>
         <ol class="numbered-list">
@@ -97,7 +101,6 @@
         </ol>
     </div>
 
-    <!-- Bagian B. Petunjuk Pengerjaan (BARU) -->
     <div class="section section-petunjuk">
         <h3>📋 B. Petunjuk Pengerjaan</h3>
         <ol class="numbered-list">
@@ -107,7 +110,6 @@
         </ol>
     </div>
 
-    <!-- Bagian C -->
     <div class="section">
         <h3>📝 Bagian C: Lembar Pengajaran</h3>
         <label>1. Tuliskan pengertian algoritma pencarian menurut pemahamanmu sendiri:</label>
@@ -123,7 +125,6 @@
         <textarea id="q3" rows="3" placeholder="Contoh Situasi dan Jenis Algoritma..."></textarea>
     </div>
 
-    <!-- Bagian D -->
     <div class="section">
         <h3>🧩 Bagian D: Analisis Kasus</h3>
         <p><strong>Instruksi:</strong> Pilih salah satu level kasus di bawah ini yang menurutmu paling sesuai dengan kemampuanmu.</p>
@@ -136,11 +137,9 @@
             <option value="3">Level 3 (Mahir)</option>
         </select>
 
-        <!-- LEVEL 1 -->
         <div id="case1" class="case-container">
             <h3 style="color: green;">Level 1: Permulaan Bimbingan</h3>
             <p><strong>Kasus:</strong> Data: 10 – 5 – 8 – 2 – 7 (tidak berurutan). Gunakan Linear Search untuk mencari angka 8.</p>
-            
             <div class="checkbox-line">Apakah 10 = 8 ? 
                 <div class="radio-group">
                     <label><input type="radio" name="l1_10_8" value="Ya"> Ya</label>
@@ -161,12 +160,10 @@
             </div>
             <label>Angka 8 ditemukan pada langkah ke-</label>
             <input type="text" id="l1_step" placeholder="Isi di sini">
-            
             <label>Refleksi Kecil: Jika terdapat 10 nomor dan angka yang dicari berada pada posisi terakhir, apakah kamu harus memeriksa nomor sebelumnya? Jelaskan!</label>
             <textarea id="l1_refleksi" rows="3" placeholder="Jawaban refleksi..."></textarea>
         </div>
 
-        <!-- LEVEL 2 -->
         <div id="case2" class="case-container">
             <h3 style="color: green;">Level 2: Berkembang</h3>
             <p><strong>Kasus:</strong> Guru memberikan daftar nomor peserta yang sudah tersusun:</p>
@@ -225,7 +222,6 @@
             <input type="text" id="l2_final_step" placeholder="Isi di sini">
         </div>
 
-        <!-- LEVEL 3 -->
         <div id="case3" class="case-container">
             <h3 style="color: green;">Level 3: Mahir</h3>
             <p><strong>Kasus:</strong> Data (terurut): 12 – 18 – 25 – 31 – 37 – 42 – 48 – 53 – 61 – 67 – 75. Cari angka: 53</p>
@@ -256,6 +252,32 @@
         </div>
     </div>
 
+    <div class="section section-petunjuk-infografis">
+        <h3>✏️ D. Petunjuk Pembuatan Infografis</h3>
+        <div class="petunjuk-grid">
+            <div>
+                <h4>📌 ISI INFOGRAFIS (Sesuai Jawaban LKPD)</h4>
+                <ul class="petunjuk-list">
+                    <li><strong>1.</strong> Judul: Algoritma Pencarian (Searching)</li>
+                    <li><strong>2.</strong> Pengertian: Tuliskan pengertian algoritma pencarian sesuai jawaban kalian di bagian A.</li>
+                    <li><strong>3.</strong> Jenis-jenis: Tuliskan 2 jenis algoritma pencarian beserta penjelasan singkatnya sesuai bagian B.</li>
+                    <li><strong>4.</strong> Contoh Kehidupan: Tuliskan 2 contoh penerapan algoritma pencarian dalam kehidupan sehari-hari sesuai bagian C.</li>
+                    <li><strong>5.</strong> Hasil Analisis: Tuliskan hasil analisis kasus pada bagian D (langkah-langkah pencarian).</li>
+                </ul>
+            </div>
+            <div>
+                <h4>🎨 DESAIN INFOGRAFIS</h4>
+                <ul class="petunjuk-list">
+                    <li><span class="check-icon">✔</span> Gunakan Canva (aplikasi desain gratis).</li>
+                    <li><span class="check-icon">✔</span> Pilih template infografis yang menarik dan mudah dibaca.</li>
+                    <li><span class="check-icon">✔</span> Gunakan warna yang kontras agar teks mudah terbaca.</li>
+                    <li><span class="check-icon">✔</span> Tambahkan gambar/ilustrasi yang relevan (misalnya buku, loker, rak, ikon pencarian).</li>
+                    <li><span class="check-icon">✔</span> Pastikan tidak ada kesalahan penulisan.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <div class="section">
         <h3>🎨 Bagian E: Hasil Infografis</h3>
         <p>Silakan unggah gambar infografis yang telah Anda buat. (Format: JPG/PNG)</p>
@@ -265,6 +287,9 @@
 
     <button class="btn-download" onclick="printLKPD()">⬇️ Download / Cetak LKPD (PDF)</button>
 </div>
+
+<!-- AREA PRINT (Elemen statis yang akan diisi saat print) -->
+<div id="print-area"></div>
 
 <!-- Modal WhatsApp -->
 <div id="waModal" class="modal">
@@ -279,10 +304,8 @@
 </div>
 
 <script>
-    // Menampilkan kasus sesuai level yang dipilih
     function updateCase() {
         const selected = document.getElementById('levelSelect').value;
-        
         document.getElementById('case1').classList.remove('active');
         document.getElementById('case2').classList.remove('active');
         document.getElementById('case3').classList.remove('active');
@@ -292,7 +315,6 @@
         else if (selected === '3') document.getElementById('case3').classList.add('active');
     }
 
-    // Preview gambar infografis yang diunggah
     function previewImage(event) {
         const file = event.target.files[0];
         const preview = document.getElementById('previewInfografis');
@@ -318,7 +340,6 @@
         return el ? el.value : "-";
     };
 
-    // Logika Download dan Print
     function printLKPD() {
         // Validasi
         const nama = document.getElementById('nama').value;
@@ -372,9 +393,8 @@
             `;
         }
 
-        // Membuat area print (termasuk Bagian A dan B)
-        const printArea = document.createElement('div');
-        printArea.className = 'print-area';
+        // ISI AREA PRINT (Elemen statis)
+        const printArea = document.getElementById('print-area');
         printArea.innerHTML = `
             <h1 style="color:blue; text-align:center;">LKPD INFORMATIKA</h1>
             <p><strong>Nama:</strong> ${nama} | <strong>Kelas:</strong> ${kelas}</p>
@@ -403,16 +423,19 @@
             <h3 style="color:purple;">Jawaban Bagian D (Studi Kasus - Level ${level})</h3>
             ${htmlCase}
             
+            <h3 style="color: #e65100;">D. Petunjuk Pembuatan Infografis</h3>
+            <p><strong>Isi Infografis:</strong> Judul: Algoritma Pencarian (Searching). Pengertian: Tuliskan pengertian algoritma pencarian sesuai jawaban kalian di bagian A. Jenis-jenis: Tuliskan 2 jenis algoritma pencarian beserta penjelasan singkatnya sesuai bagian B. Contoh Kehidupan: Tuliskan 2 contoh penerapan algoritma pencarian dalam kehidupan sehari-hari sesuai bagian C. Hasil Analisis: Tuliskan hasil analisis kasus pada bagian D (langkah-langkah pencarian).</p>
+            <p><strong>Desain Infografis:</strong> Gunakan Canva, Pilih template infografis yang menarik, Gunakan warna yang kontras, Tambahkan gambar/ilustrasi yang relevan, Pastikan tidak ada kesalahan penulisan.</p>
+
             <h3 style="color:green;">Bagian E - Hasil Infografis (Halaman Penuh)</h3>
             <img src="${previewImg.src}" class="infografis" />
         `;
-        document.body.appendChild(printArea);
 
-        // Memicu print
+        // Panggil print
         window.print();
 
-        // Hapus area print
-        document.body.removeChild(printArea);
+        // Bersihkan kembali area print agar tidak penuh
+        printArea.innerHTML = '';
 
         // Pop-up WhatsApp
         showModal();
