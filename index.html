@@ -49,29 +49,28 @@
         .checkbox-line { margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px; }
         .label-step { font-weight: bold; margin-top: 10px; display: block; }
 
-        /* PERBAIKAN UTAMA AREA PRINT */
+        /* PERBAIKAN TOTAL AREA PRINT (Metode Paling Stabil) */
         #print-area { display: none; }
         
         @media print {
-            /* Sembunyikan form utama */
-            body * { visibility: hidden; }
-            #print-area, #print-area * { visibility: visible; }
+            /* Atur margin kertas A4 */
+            @page { margin: 10mm; }
             
-            /* Tampilkan area print */
+            /* Sembunyikan Form Utama */
+            #main-form {
+                display: none !important;
+            }
+            
+            /* Tampilkan Area Cetak */
             #print-area {
                 display: block !important;
-                position: absolute;
-                left: 0;
-                top: 0;
                 width: 100%;
                 background: white;
-                padding: 20px; /* Margin standar untuk kertas */
-                box-sizing: border-box;
             }
             
             #print-area img.infografis {
                 width: 100%;
-                height: 100vh; /* Penuh 1 halaman */
+                height: 95vh; /* Mengisi hampir 1 halaman penuh */
                 object-fit: contain;
                 page-break-before: always;
             }
@@ -80,6 +79,7 @@
 </head>
 <body>
 
+<!-- FORM UTAMA (Disembunyikan saat print) -->
 <div class="container" id="main-form">
     <h1>📘 LKPD Online - Informatika</h1>
     <p style="text-align: center;">Elemen Berpikir Komputasional | Algoritma Standar (Searching & Sorting)</p>
@@ -288,7 +288,7 @@
     <button class="btn-download" onclick="printLKPD()">⬇️ Download / Cetak LKPD (PDF)</button>
 </div>
 
-<!-- AREA PRINT (Elemen statis yang akan diisi saat print) -->
+<!-- AREA CETAK -->
 <div id="print-area"></div>
 
 <!-- Modal WhatsApp -->
@@ -393,7 +393,7 @@
             `;
         }
 
-        // ISI AREA PRINT (Elemen statis)
+        // Isi area cetak
         const printArea = document.getElementById('print-area');
         printArea.innerHTML = `
             <h1 style="color:blue; text-align:center;">LKPD INFORMATIKA</h1>
@@ -434,7 +434,7 @@
         // Panggil print
         window.print();
 
-        // Bersihkan kembali area print agar tidak penuh
+        // Bersihkan kembali area print
         printArea.innerHTML = '';
 
         // Pop-up WhatsApp
